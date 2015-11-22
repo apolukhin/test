@@ -227,7 +227,7 @@ register_parameters( rt::parameters_store& store )
         rt::default_value = OF_INVALID,
         rt::optional_value = OF_CLF,
         rt::enum_values<unit_test::output_format>::value = 
-#ifndef BOOST_NO_CXX11_HDR_INITIALIZER_LIST
+#if !defined(BOOST_NO_CXX11_HDR_INITIALIZER_LIST) && !defined(BOOST_NO_CXX11_UNIFIED_INITIALIZATION_SYNTAX)
         {
             { "HRF", OF_CLF },
             { "DOT", OF_DOT }
