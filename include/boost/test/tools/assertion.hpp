@@ -186,14 +186,14 @@ public:
     
 #define ADD_OP_SUPPORT( oper, name, _ )                         \
     template<typename T>                                        \
-    binary_expr<ExprType,T,                                     \
+    binary_expr<ExprType, typename boost::mpl::if_<boost::is_rvalue_reference<T>, T, typename RhsT<T>::type>::type                                  ,  \
         op::name<ValType,typename RhsT<T>::type> >              \
-    operator oper( T&& rhs )                                    \
-    {                                                           \
+    operator oper( T&& rhs )                              \
+    { /*static_assert(!std::is_reference<T>::value, "blabla");   */                                                        \
         return binary_expr<ExprType,T,                          \
          op::name<ValType,typename RhsT<T>::type> >             \
             ( std::forward<ExprType>(                           \
-                *static_cast<ExprType*>(this) ),                \
+                *static_cast<ExprType*>(this) )/*std::move(*this)*/,                \
               std::forward<T>(rhs) );                           \
     }                                                           \
 /**/
